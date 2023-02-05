@@ -33,12 +33,12 @@ const Login = () => {
   return (
     <div className="formContainer">
       <div className="formWrapper">
-        <span className="logo">ChaChat</span>
+        <span className="logo">Cha-Chat</span>
         <span className="title">Register</span>
 
         <form onSubmit={handleSubmit}>
-          <input type="email" placeholder="email" />
-          <input type="password" placeholder="password" />
+          <input type="email" placeholder="Email" />
+          <input type="password" placeholder="Password" />
           
           {!isLoadingButton && <button>Sign In</button>}
         {isLoadingButton && <button disabled style={{backgroundColor:"#868fae"}}><Loader /></button>}

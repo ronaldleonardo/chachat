@@ -64,7 +64,7 @@ const Register = () => {
   return (
     <div className="formContainer">
       <div className="formWrapper">
-        <span className="logo">ChaChat</span>
+        <span className="logo">Cha-Chat</span>
         <span className="title">Register</span>
 
         <form onSubmit={handleSubmit}>

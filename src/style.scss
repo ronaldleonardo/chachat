@@ -70,6 +70,8 @@
                 padding: 10px;
                 font-weight: bold;
                 border: none;
+                border-radius: 5px;
+
                 cursor: pointer;
 
                 &:hover{
@@ -195,6 +197,8 @@
                         position: absolute;
                         bottom: 15px;
                         left: 12px;
+                        border-radius: 5px;
+
 
                         &:hover{
                             background-color: #2f2d52;
@@ -433,11 +437,22 @@
                         padding: 10px 15px;
                         color: white;
                         background-color: #8da4f1;
+                        border-radius: 5px;
                         cursor: pointer ;
 
                         &:hover{
                             background-color: #6c7fbe;
                         }
+                    }
+
+                    .loadingButton{
+                        border: none;
+                        padding: 0px 3px;
+                        color: white;
+                        background-color: #868fae;
+                        border-radius: 5px;
+
+                        cursor: pointer ;
                     }
                 }
                 

@@ -101,7 +101,7 @@ const Input = () => {
           <img src={Img} alt="" />
         </label>
         {!isLoadingButton && <button type="submit">Send</button>}
-        {isLoadingButton && (<button disabled style={{backgroundColor:"#868fae"}}><Loader /></button>
+        {isLoadingButton && (<button className="loadingButton" disabled><Loader /></button>
         )}
       </div>
     </form>
