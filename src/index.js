@@ -5,16 +5,19 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthContextProvider } from "./context/AuthContext";
 import { ChatContextProvider } from "./context/ChatContext";
+import { DisplayNoneContextProvider } from "./context/DisplayNoneContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <AuthContextProvider>
-    <ChatContextProvider>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </ChatContextProvider>
-  </AuthContextProvider>
+  <DisplayNoneContextProvider>
+    <AuthContextProvider>
+      <ChatContextProvider>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </ChatContextProvider>
+    </AuthContextProvider>
+  </DisplayNoneContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

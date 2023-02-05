@@ -12,13 +12,23 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
+import { DisplayNoneContext } from "../context/DisplayNoneContext";
+
+
 const Search = () => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
   const [err, setErr] = useState(false);
+  const { dispatchDisplay } = useContext(DisplayNoneContext);
+
+  const hideTheDisplay = (a) => {
+    dispatchDisplay({ type: "DISPLAY_NONE", payload: a });
+  };
 
   const { currentUser } = useContext(AuthContext);
-  const handleSearch = async () => {
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
     const q = query(
       collection(db, "users"),
       where("displayName", "==", username.toLocaleLowerCase())
@@ -34,9 +44,9 @@ const Search = () => {
     }
   };
 
-  const handleKey = (e) => {
-    e.code == "Enter" && handleSearch();
-  };
+  // const handleKey = (e) => {
+  //   e.code == "Enter" && handleSearch();
+  // };
 
   const handleSelect = async () => {
     // check wether the group(chats in firestore) exist, if not create a new collection
@@ -68,22 +78,27 @@ const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
+        
       }
     } catch (err) {}
     setUser(null);
     setUsername("");
+    hideTheDisplay(true);
+
   };
 
   return (
     <div className="search">
       <div className="searchForm">
-        <input
-          type="text"
-          placeholder="Find a user"
-          onKeyDown={handleKey}
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-        />
+        <form onSubmit={handleSearch}>
+          <input
+            type="text"
+            placeholder="Find a user"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+          />
+          <button type="submit" style={{display: "none"}}>search</button>
+        </form>
       </div>
       {err && <span>User not found!</span>}
       {user && (

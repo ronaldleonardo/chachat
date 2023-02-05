@@ -2,12 +2,25 @@ import { doc, onSnapshot } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
+import { DisplayNoneContext } from "../context/DisplayNoneContext";
 import { db } from "../firebase";
+
 
 const Chats = () => {
   const [chats, setChats] = useState([]);
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
+  const { dispatchDisplay } = useContext(DisplayNoneContext);
+
+  const hideTheDisplay = (a) => {
+    dispatchDisplay({ type: "DISPLAY_NONE", payload: a });
+  };
+
+
+  const handleSelectAndHideTheDisplay = (chatUserInfo) => {
+    handleSelect(chatUserInfo);
+    hideTheDisplay(true);
+  }
 
   useEffect(() => {
     const getChats = () => {
@@ -31,7 +44,7 @@ const Chats = () => {
         <div
           className="userChat"
           key={chat[0]}
-          onClick={() => handleSelect(chat[1].userInfo)}
+          onClick={() => handleSelectAndHideTheDisplay(chat[1].userInfo)}
         >
           <img src={chat[1].userInfo.photoURL} alt="" />
           <div className="userChatInfo">
