@@ -5,15 +5,19 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import Add from "../img/addAvatar.png";
 import { useNavigate, Link } from "react-router-dom";
+import Loader from "../components/Loader";
 
 const Register = () => {
   const [err, setErr] = useState(false);
   const [errMessage, setErrMessage] = useState("");
+  const [isLoadingButton, setIsLoadingButton] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    setIsLoadingButton(true);
     e.preventDefault();
-    const displayName = e.target[0].value;
+    const displayName = e.target[0].value.toLocaleLowerCase();
     const email = e.target[1].value;
     const password = e.target[2].value;
     const file = e.target[3].files[0];
@@ -45,6 +49,7 @@ const Register = () => {
             });
 
             await setDoc(doc(db, "userChats", res.user.uid), {});
+            setIsLoadingButton(false);
             navigate("/");
           });
         }
@@ -52,6 +57,7 @@ const Register = () => {
     } catch (err) {
       setErr(true);
       setErrMessage(err);
+      setIsLoadingButton(false);
     }
   };
 
@@ -70,7 +76,10 @@ const Register = () => {
             <img src={Add} alt="" />
             <span>Add an avatar</span>
           </label>
-          <button>Sign Up</button>
+          
+        {!isLoadingButton && <button>Sign Up</button>}
+        {isLoadingButton && <button disabled style={{backgroundColor:"#868fae"}}><Loader /></button>}
+
           {err && <span className="errorMessage">{`Something went wrong ${errMessage}`}</span>}
         </form>
 

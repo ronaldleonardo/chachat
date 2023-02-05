@@ -12,6 +12,8 @@ const Message = ({ message }) => {
   useEffect(() => {
     ref.current?.scrollIntoView({behavior: "smooth"});
   }, [message]);
+
+
   return (
     <div ref={ref}
       className={`message ${message.senderId === currentUser.uid && "owner"}`}
@@ -27,6 +29,7 @@ const Message = ({ message }) => {
         />
         
         <span>{`${messageDate.getDate()}/${messageDate.getMonth()}/${messageDate.getFullYear()}`}</span>
+        <span>{`${messageDate.getHours()}:${messageDate.getMinutes()}`}</span>
       </div>
       <div className="messageContent">
         <p>{message.text}</p>

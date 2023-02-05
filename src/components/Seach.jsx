@@ -21,7 +21,7 @@ const Search = () => {
   const handleSearch = async () => {
     const q = query(
       collection(db, "users"),
-      where("displayName", "==", username)
+      where("displayName", "==", username.toLocaleLowerCase())
     );
 
     try {
@@ -73,6 +73,7 @@ const Search = () => {
     setUser(null);
     setUsername("");
   };
+
   return (
     <div className="search">
       <div className="searchForm">

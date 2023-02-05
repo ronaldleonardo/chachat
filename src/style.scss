@@ -154,6 +154,10 @@
                     display: flex;
                     gap: 10px;
 
+                    span{
+                        text-transform: capitalize;
+                    }
+
                     img{
                         background-color: #ddddf7;
                         height: 24px;
@@ -223,6 +227,7 @@
                     span{
                         font-size: 18px;
                         font-weight: 500;
+                        text-transform: capitalize;
                     }
 
                     p{
@@ -246,6 +251,10 @@
                 justify-content: space-between;
                 padding: 10px;
                 color: lightgray;
+            }
+
+            span{
+                text-transform: capitalize;
             }
 
             .chatIcons{
