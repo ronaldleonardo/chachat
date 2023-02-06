@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Chats from "./Chats";
 import Navbar from "./Navbar";
-import Search from "./Seach";
+import Search from "./Search";
 import { DisplayNoneContext } from "../context/DisplayNoneContext";
 
 const Sidebar = () => {

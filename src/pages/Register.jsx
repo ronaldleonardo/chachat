@@ -23,40 +23,42 @@ const Register = () => {
     const file = e.target[3].files[0];
 
     try {
+      //create user
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      const storageRef = ref(storage, displayName);
+      //creating a unique image name
+      const date = new Date().getTime();
+      const storageRef = ref(storage, `${displayName + date}`);
 
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        (error) => {
-          setErr(true);
-          setErrMessage(err.message);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+      await uploadBytesResumable(storageRef, file).then(() => {
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          try {
+            //update profile
             await updateProfile(res.user, {
               displayName,
               photoURL: downloadURL,
             });
-            await console.log(res.user);
-
+            //create user on firestore
             await setDoc(doc(db, "users", res.user.uid), {
               uid: res.user.uid,
               displayName,
               email,
               photoURL: downloadURL,
             });
-
+            //create empty user chats on firestore
             await setDoc(doc(db, "userChats", res.user.uid), {});
             setIsLoadingButton(false);
             navigate("/");
-          });
-        }
-      );
+          } catch (err) {
+            console.log(err);
+            setErr(true);
+            setErrMessage(err.message);
+            setIsLoadingButton(false);
+          }
+        });
+      });
     } catch (err) {
       setErr(true);
-      setErrMessage(err);
+      setErrMessage(err.message);
       setIsLoadingButton(false);
     }
   };
@@ -76,11 +78,17 @@ const Register = () => {
             <img src={Add} alt="" />
             <span>Add an avatar</span>
           </label>
-          
-        {!isLoadingButton && <button>Sign Up</button>}
-        {isLoadingButton && <button disabled style={{backgroundColor:"#868fae"}}><Loader /></button>}
 
-          {err && <span className="errorMessage">{`Something went wrong ${errMessage}`}</span>}
+          {!isLoadingButton && <button>Sign Up</button>}
+          {isLoadingButton && (
+            <button disabled style={{ backgroundColor: "#868fae" }}>
+              <Loader />
+            </button>
+          )}
+
+          {err && (
+            <span className="errorMessage">{`Something went wrong ${errMessage}`}</span>
+          )}
         </form>
 
         <p>
